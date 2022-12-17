@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # is a factors challenge
 
+
 check_factor()
 {
 	if [ $# -ne 3 ];
