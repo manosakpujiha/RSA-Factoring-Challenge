@@ -1,49 +1,19 @@
 #!/usr/bin/env bash
 # is a factors challenge
 
-check_factor()
-{
-	if [ $# -ne 3 ];
-        then
-                args=("$@")
-                count=0
-                num2=1
-                for a in ${args[*]};
-                do
-                        if [ $count -gt 1 ];
-                        then
-                                num2=$(echo $a*$num2 | bc)
-                        fi
-                        count=$((count + 1))
-                done
-        else
-                num2=$3
-        fi
 
-        num1=$2
-        num=$(echo "$1" | tr ':' '=')
+import math
 
-        result=$(echo "if($num2 > $num1) 1 else 0" | bc)
-	        if ((result == 1)); then
-		        numcp=$num1
-		        num1=$num2
-		        num2=$numcp
-                fi
+def factors(n):
+    result = []
+    for i in range(2, int(math.sqrt(n)) + 1):
+        if n % i == 0:
+            result.append(i)
+            result.append(n // i)
+    return result
 
-        echo "$num$num1*$num2"
-}
-
-if [ $# -ne 1 ]
-then
-        echo 'Usage: factors <file>'
-        exit 1
-else
-
-        while read i
-        do
-
-                result=$(factor "$i")
-                check_factor $result
-
-        done < "$1"
-fi
+with open('file.txt', 'r') as f:
+    for line in f:
+        n = int(line.strip())
+        p, q = factors(n)
+        print(f'{n}={p}*{q}')
